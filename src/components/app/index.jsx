@@ -12,6 +12,7 @@ class App extends Component {
       user: {
         photoURL: 'https://avatars1.githubusercontent.com/u/9289219?v=4',
         email: 'jalbertsr@protonmail.ch',
+        displayName: 'Joan Albert',
         onOpenText: false
       }
     }
