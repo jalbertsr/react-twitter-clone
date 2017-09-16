@@ -6,20 +6,25 @@ class Message extends Component {
   constructor (props) {
     super(props)
 
-    this.props.onPressRetweet = this.props.onPressRetweet.bind(this)
-    this.props.onPressFavorite = this.props.onPressFavorite.bind(this)
+    this.state = {
+      pressFavorite: false,
+      pressRetweet: false
+    }
+
+    this.onPressRetweet = this.onPressRetweet.bind(this)
+    this.onPressFavorite = this.onPressFavorite.bind(this)
   }
 
   onPressRetweet () {
     this.props.onRetweet()
-    this.setSate({
+    this.setState({
       pressRetweet: true
     })
   }
 
   onPressFavorite () {
     this.props.onFavorite()
-    this.setSate({
+    this.setState({
       pressFavorite: true
     })
   }
@@ -38,17 +43,22 @@ class Message extends Component {
         </div>
         <h3>{this.props.text}</h3>
         <div className={styles.buttons}>
-          <div className={styles.icon}><span className='fa fa-reply'></span></div>
           <div
-            className={(this.state.pressRetweet) ? styles.rtGreen : ''}
-            onClick={this.props.onPressRetweet}
+            className={styles.icon}
+            onClick={this.props.onReplyTweet}
+          >
+            <span className='fa fa-reply'></span>
+          </div>
+          <div
+            className={(this.state.pressRetweet) ? styles.rtGreen : styles.space}
+            onClick={this.onPressRetweet}
           >
             <span className='fa fa-retweet'></span>
             <span className={styles.number}>{this.props.numRetweets}</span>
           </div>
           <div
             className={(this.state.pressFavorite) ? styles.favYellow : ''}
-            onClick={this.props.onPressFavorite}
+            onClick={this.onPressFavorite}
           >
             <span className='fa fa-star'></span>
             <span className={styles.number}>{this.props.numFavorites}</span>

@@ -23027,12 +23027,13 @@
 	var Main = function (_Component) {
 	  _inherits(Main, _Component);
 
-	  function Main() {
+	  function Main(props) {
 	    _classCallCheck(this, Main);
 
-	    var _this = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this));
+	    var _this = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this, props));
 
 	    _this.state = {
+	      user: Object.assign({}, _this.props.user, { retweets: [] }, { favorites: [] }),
 	      openText: false,
 	      messages: [{
 	        id: _uuid2.default.v4(),
@@ -23044,6 +23045,7 @@
 	        retweets: 0,
 	        favorites: 0
 	      }, {
+	        user: _this.props.user,
 	        id: _uuid2.default.v4(),
 	        text: 'guay tweett',
 	        picture: 'https://avatars1.githubusercontent.com/u/9289219?v=4',
@@ -23058,6 +23060,8 @@
 	    _this.handleSendText = _this.handleSendText.bind(_this);
 	    _this.handleCloseText = _this.handleCloseText.bind(_this);
 	    _this.handleOpenText = _this.handleOpenText.bind(_this);
+	    _this.handleRetweet = _this.handleRetweet.bind(_this);
+	    _this.handleFavorite = _this.handleFavorite.bind(_this);
 	    return _this;
 	  }
 
@@ -23102,6 +23106,48 @@
 	      }
 	    }
 	  }, {
+	    key: 'handleRetweet',
+	    value: function handleRetweet(msgId) {
+	      var alreadyRetweeted = this.state.user.retweets.filter(function (rt) {
+	        return rt === msgId;
+	      });
+	      if (alreadyRetweeted.length === 0) {
+	        var messages = this.state.messages.map(function (msg) {
+	          if (msg.id === msgId) msg.retweets++;
+	          return msg;
+	        });
+
+	        var user = Object.assign({}, this.state.user);
+	        user.retweets.push(msgId);
+
+	        this.setState({
+	          messages: messages,
+	          user: user
+	        });
+	      }
+	    }
+	  }, {
+	    key: 'handleFavorite',
+	    value: function handleFavorite(msgId) {
+	      var alreadyFavorited = this.state.user.favorites.filter(function (fav) {
+	        return fav === msgId;
+	      });
+	      if (alreadyFavorited.length === 0) {
+	        var messages = this.state.messages.map(function (msg) {
+	          if (msg.id === msgId) msg.favorites++;
+	          return msg;
+	        });
+
+	        var user = Object.assign({}, this.state.user);
+	        user.favorites.push(msgId);
+
+	        this.setState({
+	          messages: messages,
+	          user: user
+	        });
+	      }
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
@@ -23113,7 +23159,11 @@
 	          onOpenText: this.handleOpenText
 	        }),
 	        this.renderOpenText(),
-	        _react2.default.createElement(_messageList2.default, { messages: this.state.messages })
+	        _react2.default.createElement(_messageList2.default, {
+	          messages: this.state.messages,
+	          onRetweet: this.handleRetweet,
+	          onFavorite: this.handleFavorite
+	        })
 	      );
 	    }
 	  }]);
@@ -23391,6 +23441,8 @@
 	  _createClass(MessageList, [{
 	    key: 'render',
 	    value: function render() {
+	      var _this2 = this;
+
 	      return _react2.default.createElement(
 	        'div',
 	        { className: _styles2.default.root },
@@ -23403,7 +23455,13 @@
 	            username: msg.username,
 	            date: msg.date,
 	            numRetweets: msg.retweets,
-	            numFavorites: msg.favorites
+	            numFavorites: msg.favorites,
+	            onRetweet: function onRetweet() {
+	              return _this2.props.onRetweet(msg.id);
+	            },
+	            onFavourite: function onFavourite() {
+	              return _this2.props.onFavourite(msg.id);
+	            }
 	          });
 	        }).reverse()
 	      );
@@ -23453,10 +23511,35 @@
 	  function Message(props) {
 	    _classCallCheck(this, Message);
 
-	    return _possibleConstructorReturn(this, (Message.__proto__ || Object.getPrototypeOf(Message)).call(this, props));
+	    var _this = _possibleConstructorReturn(this, (Message.__proto__ || Object.getPrototypeOf(Message)).call(this, props));
+
+	    _this.state = {
+	      pressFavorite: false,
+	      pressRetweet: false
+	    };
+
+	    _this.onPressRetweet = _this.onPressRetweet.bind(_this);
+	    _this.onPressFavorite = _this.onPressFavorite.bind(_this);
+	    return _this;
 	  }
 
 	  _createClass(Message, [{
+	    key: 'onPressRetweet',
+	    value: function onPressRetweet() {
+	      this.props.onRetweet();
+	      this.setState({
+	        pressRetweet: true
+	      });
+	    }
+	  }, {
+	    key: 'onPressFavorite',
+	    value: function onPressFavorite() {
+	      this.props.onFavorite();
+	      this.setState({
+	        pressFavorite: true
+	      });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var dateFormat = (0, _moment2.default)(this.props.date).fromNow();
@@ -23505,7 +23588,10 @@
 	          ),
 	          _react2.default.createElement(
 	            'div',
-	            { className: _styles2.default.icon },
+	            {
+	              className: this.state.pressRetweet ? _styles2.default.rtGreen : _styles2.default.space,
+	              onClick: this.onPressRetweet
+	            },
 	            _react2.default.createElement('span', { className: 'fa fa-retweet' }),
 	            _react2.default.createElement(
 	              'span',
@@ -23515,7 +23601,10 @@
 	          ),
 	          _react2.default.createElement(
 	            'div',
-	            { className: _styles2.default.icon },
+	            {
+	              className: this.state.pressFavorite ? _styles2.default.favYellow : '',
+	              onClick: this.onPressFavorite
+	            },
 	            _react2.default.createElement('span', { className: 'fa fa-star' }),
 	            _react2.default.createElement(
 	              'span',
@@ -23573,7 +23662,7 @@
 
 
 	// module
-	exports.push([module.id, ".styles__root__2ni7z{\n\tbackground-color: #fff;\n\tborder:1px solid #ccc;\n\tborder-radius: 5px;\n\tpadding: 1em;\n\tmargin: 0.5em;\n}\n\n.styles__text__y9Zf4{\n\tfont-size: 16pt;\n\tfont-weight: 200;\n}\n\n.styles__user__3G7ef{\n\tdisplay: flex;\n\talign-items: center;\n}\n\n.styles__avatar__23vWH{\n\twidth: 34px;\n\theight: 34px;\n\tborder-radius: 50%;\n}\n\n.styles__displayName__lT3fr{\n\tfont-weight: bold;\n\tpadding: 0.5em;\n}\n\n.styles__username__eqsVC{\n\tcolor: #aaa;\n}\n\n.styles__date__3Rakr{\n\tcolor: #aaa;\n\tpadding: 0.5em;\n\tfont-size: 8pt;\n}\n\n.styles__buttons__3T33J{\n\tdisplay: flex;\n\tjustify-content: flex-start;\n\tcolor: #aaa;\n}\n\n.styles__icon__2EgC-{\n\tmargin-right: 3em;\n}", ""]);
+	exports.push([module.id, ".styles__root__2ni7z{\n\tbackground-color: #fff;\n\tborder:1px solid #ccc;\n\tborder-radius: 5px;\n\tpadding: 1em;\n\tmargin: 0.5em;\n}\n\n.styles__text__y9Zf4{\n\tfont-size: 16pt;\n\tfont-weight: 200;\n}\n\n.styles__user__3G7ef{\n\tdisplay: flex;\n\talign-items: center;\n}\n\n.styles__avatar__23vWH{\n\twidth: 34px;\n\theight: 34px;\n\tborder-radius: 50%;\n}\n\n.styles__displayName__lT3fr{\n\tfont-weight: bold;\n\tpadding: 0.5em;\n}\n\n.styles__username__eqsVC{\n\tcolor: #aaa;\n}\n\n.styles__date__3Rakr{\n\tcolor: #aaa;\n\tpadding: 0.5em;\n\tfont-size: 8pt;\n}\n\n.styles__buttons__3T33J{\n\tdisplay: flex;\n\tjustify-content: flex-start;\n\tcolor: #aaa;\n}\n\n.styles__icon__2EgC-{\n\tmargin-right: 3em;\n}\n\n.styles__num__eraG1{\n\tfont-size: 10pt;\n\tmargin-right: 3em;\n\tmargin-left: 0.25em;\n}\n\n.styles__space__2nSG1{\n\tmargin-right: 3em;\n}\n\n.styles__rtGreen__lLopG{\n\tcolor: #20883f;\n\tmargin-right: 3em;\n}\n\n.styles__favYellow__p-OG2{\n\tcolor: #e2c400;\n}", ""]);
 
 	// exports
 	exports.locals = {
@@ -23585,7 +23674,11 @@
 		"username": "styles__username__eqsVC",
 		"date": "styles__date__3Rakr",
 		"buttons": "styles__buttons__3T33J",
-		"icon": "styles__icon__2EgC-"
+		"icon": "styles__icon__2EgC-",
+		"num": "styles__num__eraG1",
+		"space": "styles__space__2nSG1",
+		"rtGreen": "styles__rtGreen__lLopG",
+		"favYellow": "styles__favYellow__p-OG2"
 	};
 
 /***/ }),

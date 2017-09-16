@@ -53,8 +53,13 @@
 	margin-left: 0.25em;
 }
 
+.space{
+	margin-right: 3em;
+}
+
 .rtGreen{
 	color: #20883f;
+	margin-right: 3em;
 }
 
 .favYellow{
