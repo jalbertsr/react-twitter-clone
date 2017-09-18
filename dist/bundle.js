@@ -23035,6 +23035,7 @@
 	    _this.state = {
 	      user: Object.assign({}, _this.props.user, { retweets: [] }, { favorites: [] }),
 	      openText: false,
+	      userNameToReply: '',
 	      messages: [{
 	        id: _uuid2.default.v4(),
 	        text: 'primer tweett',
@@ -23045,7 +23046,6 @@
 	        retweets: 0,
 	        favorites: 0
 	      }, {
-	        user: _this.props.user,
 	        id: _uuid2.default.v4(),
 	        text: 'guay tweett',
 	        picture: 'https://avatars1.githubusercontent.com/u/9289219?v=4',
@@ -23062,6 +23062,7 @@
 	    _this.handleOpenText = _this.handleOpenText.bind(_this);
 	    _this.handleRetweet = _this.handleRetweet.bind(_this);
 	    _this.handleFavorite = _this.handleFavorite.bind(_this);
+	    _this.handleReplyTweet = _this.handleReplyTweet.bind(_this);
 	    return _this;
 	  }
 
@@ -23090,6 +23091,14 @@
 	      this.setState({ openText: false });
 	    }
 	  }, {
+	    key: 'handleReplyTweet',
+	    value: function handleReplyTweet(msgId, userNameToReply) {
+	      this.setState({
+	        openText: true,
+	        userNameToReply: userNameToReply
+	      });
+	    }
+	  }, {
 	    key: 'handleOpenText',
 	    value: function handleOpenText(event) {
 	      event.preventDefault();
@@ -23101,7 +23110,8 @@
 	      if (this.state.openText) {
 	        return _react2.default.createElement(_InputText2.default, {
 	          onSendText: this.handleSendText,
-	          onCloseText: this.handleCloseText
+	          onCloseText: this.handleCloseText,
+	          userNameToReply: this.state.userNameToReply
 	        });
 	      }
 	    }
@@ -23162,7 +23172,8 @@
 	        _react2.default.createElement(_messageList2.default, {
 	          messages: this.state.messages,
 	          onRetweet: this.handleRetweet,
-	          onFavorite: this.handleFavorite
+	          onFavorite: this.handleFavorite,
+	          onReplyTweet: this.handleReplyTweet
 	        })
 	      );
 	    }
@@ -23432,10 +23443,10 @@
 	var MessageList = function (_Component) {
 	  _inherits(MessageList, _Component);
 
-	  function MessageList(props) {
+	  function MessageList() {
 	    _classCallCheck(this, MessageList);
 
-	    return _possibleConstructorReturn(this, (MessageList.__proto__ || Object.getPrototypeOf(MessageList)).call(this, props));
+	    return _possibleConstructorReturn(this, (MessageList.__proto__ || Object.getPrototypeOf(MessageList)).apply(this, arguments));
 	  }
 
 	  _createClass(MessageList, [{
@@ -23459,8 +23470,11 @@
 	            onRetweet: function onRetweet() {
 	              return _this2.props.onRetweet(msg.id);
 	            },
-	            onFavourite: function onFavourite() {
-	              return _this2.props.onFavourite(msg.id);
+	            onFavorite: function onFavorite() {
+	              return _this2.props.onFavorite(msg.id);
+	            },
+	            onReplyTweet: function onReplyTweet() {
+	              return _this2.props.onReplyTweet(msg.id, msg.username);
 	            }
 	          });
 	        }).reverse()
@@ -23583,7 +23597,10 @@
 	          { className: _styles2.default.buttons },
 	          _react2.default.createElement(
 	            'div',
-	            { className: _styles2.default.icon },
+	            {
+	              className: _styles2.default.icon,
+	              onClick: this.props.onReplyTweet
+	            },
 	            _react2.default.createElement('span', { className: 'fa fa-reply' })
 	          ),
 	          _react2.default.createElement(
@@ -39587,7 +39604,11 @@
 	      return _react2.default.createElement(
 	        'form',
 	        { className: _styles2.default.form, onSubmit: this.props.onSendText },
-	        _react2.default.createElement('textarea', { className: _styles2.default.text, name: 'text' }),
+	        _react2.default.createElement(
+	          'textarea',
+	          { className: _styles2.default.text, name: 'text' },
+	          this.props.userNameToReply ? '@' + this.props.userNameToReply + ' ' : ''
+	        ),
 	        _react2.default.createElement(
 	          'div',
 	          { className: _styles2.default.buttons },
