@@ -1,0 +1,33 @@
+.root{
+	display: flex;
+	flex-direction: column;
+	margin: 0 auto;
+	width: 100%;
+}
+
+.avatar{
+	width: 150px;
+	height: 150px;
+	border-radius: 50%;
+	margin: 1em auto;
+}
+
+.name{
+	font-weight: 700;
+	font-size: 20pt;
+	text-align: center;
+}
+
+.data{
+	list-style-type: none;
+	margin: 1em 0;
+	padding: 0;
+}
+
+.data > li{
+	background-color: #fff;
+	padding: 1em;
+	margin: 0;
+	border: 1px solid #ddd;
+	color: #777;
+}
