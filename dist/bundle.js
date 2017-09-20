@@ -26414,7 +26414,7 @@
 	    _react2.default.createElement(
 	      'h1',
 	      { className: _styles2.default.logo },
-	      'Reactter'
+	      'Github tweet'
 	    )
 	  );
 	}
@@ -27045,6 +27045,10 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	var propTypes = {
+	  user: _react.PropTypes.object.isRequired
+	};
+
 	var Main = function (_Component) {
 	  _inherits(Main, _Component);
 
@@ -27202,6 +27206,8 @@
 
 	  return Main;
 	}(_react.Component);
+
+	Main.propTypes = propTypes;
 
 	exports.default = Main;
 
@@ -27439,8 +27445,6 @@
 	  value: true
 	});
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
@@ -27455,56 +27459,47 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	var propTypes = {
+	  messages: _react.PropTypes.arrayOf(_react.PropTypes.Object).isRequired,
+	  onRetweet: _react.PropTypes.func.isRequired,
+	  onFavorite: _react.PropTypes.func.isRequired,
+	  onReplyTweet: _react.PropTypes.func.isRequired
+	};
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	function MessageList(_ref) {
+	  var messages = _ref.messages,
+	      _onRetweet = _ref.onRetweet,
+	      _onFavorite = _ref.onFavorite,
+	      _onReplyTweet = _ref.onReplyTweet;
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	  return _react2.default.createElement(
+	    'div',
+	    { className: _styles2.default.root },
+	    messages.map(function (msg) {
+	      return _react2.default.createElement(_message2.default, {
+	        key: msg.id,
+	        text: msg.text,
+	        picture: msg.picture,
+	        displayName: msg.displayName,
+	        username: msg.username,
+	        date: msg.date,
+	        numRetweets: msg.retweets,
+	        numFavorites: msg.favorites,
+	        onRetweet: function onRetweet() {
+	          return _onRetweet(msg.id);
+	        },
+	        onFavorite: function onFavorite() {
+	          return _onFavorite(msg.id);
+	        },
+	        onReplyTweet: function onReplyTweet() {
+	          return _onReplyTweet(msg.id, msg.username);
+	        }
+	      });
+	    }).reverse()
+	  );
+	}
 
-	var MessageList = function (_Component) {
-	  _inherits(MessageList, _Component);
-
-	  function MessageList() {
-	    _classCallCheck(this, MessageList);
-
-	    return _possibleConstructorReturn(this, (MessageList.__proto__ || Object.getPrototypeOf(MessageList)).apply(this, arguments));
-	  }
-
-	  _createClass(MessageList, [{
-	    key: 'render',
-	    value: function render() {
-	      var _this2 = this;
-
-	      return _react2.default.createElement(
-	        'div',
-	        { className: _styles2.default.root },
-	        this.props.messages.map(function (msg) {
-	          return _react2.default.createElement(_message2.default, {
-	            key: msg.id,
-	            text: msg.text,
-	            picture: msg.picture,
-	            displayName: msg.displayName,
-	            username: msg.username,
-	            date: msg.date,
-	            numRetweets: msg.retweets,
-	            numFavorites: msg.favorites,
-	            onRetweet: function onRetweet() {
-	              return _this2.props.onRetweet(msg.id);
-	            },
-	            onFavorite: function onFavorite() {
-	              return _this2.props.onFavorite(msg.id);
-	            },
-	            onReplyTweet: function onReplyTweet() {
-	              return _this2.props.onReplyTweet(msg.id, msg.username);
-	            }
-	          });
-	        }).reverse()
-	      );
-	    }
-	  }]);
-
-	  return MessageList;
-	}(_react.Component);
+	MessageList.propTypes = propTypes;
 
 	exports.default = MessageList;
 
@@ -27541,6 +27536,18 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var propTypes = {
+	  onRetweet: _react.PropTypes.func.isRequired,
+	  onFavorite: _react.PropTypes.func.isRequired,
+	  onReplyTweet: _react.PropTypes.func.isRequired,
+	  date: _react.PropTypes.number.isRequired,
+	  username: _react.PropTypes.string.isRequired,
+	  displayName: _react.PropTypes.string.isRequired,
+	  text: _react.PropTypes.string.isRequired,
+	  numRetweets: _react.PropTypes.number.isRequired,
+	  numFavorites: _react.PropTypes.number.isRequired
+	};
 
 	var Message = function (_Component) {
 	  _inherits(Message, _Component);
@@ -27665,6 +27672,8 @@
 
 	  return Message;
 	}(_react.Component);
+
+	Message.propTypes = propTypes;
 
 	exports.default = Message;
 
@@ -43600,8 +43609,6 @@
 	  value: true
 	});
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
@@ -43612,52 +43619,43 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	var propTypes = {
+	  onSendText: _react.PropTypes.func.isRequired,
+	  onCloseText: _react.PropTypes.func.isRequired,
+	  userNameToReply: _react.PropTypes.string.isRequired
+	};
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	function InputText(_ref) {
+	  var onSendText = _ref.onSendText,
+	      onCloseText = _ref.onCloseText,
+	      userNameToReply = _ref.userNameToReply;
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	  return _react2.default.createElement(
+	    'form',
+	    { className: _styles2.default.form, onSubmit: onSendText },
+	    _react2.default.createElement(
+	      'textarea',
+	      { className: _styles2.default.text, name: 'text' },
+	      userNameToReply ? '@' + userNameToReply + ' ' : ''
+	    ),
+	    _react2.default.createElement(
+	      'div',
+	      { className: _styles2.default.buttons },
+	      _react2.default.createElement(
+	        'button',
+	        { className: _styles2.default.close, onClick: onCloseText },
+	        'Close'
+	      ),
+	      _react2.default.createElement(
+	        'button',
+	        { className: _styles2.default.send, type: 'submit' },
+	        ' Send '
+	      )
+	    )
+	  );
+	}
 
-	var InputText = function (_Component) {
-	  _inherits(InputText, _Component);
-
-	  function InputText() {
-	    _classCallCheck(this, InputText);
-
-	    return _possibleConstructorReturn(this, (InputText.__proto__ || Object.getPrototypeOf(InputText)).apply(this, arguments));
-	  }
-
-	  _createClass(InputText, [{
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'form',
-	        { className: _styles2.default.form, onSubmit: this.props.onSendText },
-	        _react2.default.createElement(
-	          'textarea',
-	          { className: _styles2.default.text, name: 'text' },
-	          this.props.userNameToReply ? '@' + this.props.userNameToReply + ' ' : ''
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: _styles2.default.buttons },
-	          _react2.default.createElement(
-	            'button',
-	            { className: _styles2.default.close, onClick: this.props.onCloseText },
-	            'Close'
-	          ),
-	          _react2.default.createElement(
-	            'button',
-	            { className: _styles2.default.send, type: 'submit' },
-	            ' Send '
-	          )
-	        )
-	      );
-	    }
-	  }]);
-
-	  return InputText;
-	}(_react.Component);
+	InputText.propTypes = propTypes;
 
 	exports.default = InputText;
 
@@ -43721,8 +43719,6 @@
 	  value: true
 	});
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
@@ -43735,55 +43731,46 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	var propTypes = {
+	  picture: _react.PropTypes.string.isRequired,
+	  username: _react.PropTypes.string.isRequired,
+	  onOpenText: _react.PropTypes.func.isRequired
+	};
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	function ProfileBar(_ref) {
+	  var picture = _ref.picture,
+	      username = _ref.username,
+	      onOpenText = _ref.onOpenText;
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	  return _react2.default.createElement(
+	    'div',
+	    { className: _styles2.default.root },
+	    _react2.default.createElement(
+	      _reactRouter.Link,
+	      { to: '/profile' },
+	      _react2.default.createElement(
+	        'figure',
+	        null,
+	        _react2.default.createElement('img', { className: _styles2.default.avatar, src: picture })
+	      )
+	    ),
+	    _react2.default.createElement(
+	      'span',
+	      { className: _styles2.default.username },
+	      ' Hola @',
+	      username,
+	      '!'
+	    ),
+	    _react2.default.createElement(
+	      'button',
+	      { onClick: onOpenText, className: _styles2.default.button },
+	      _react2.default.createElement('span', { className: 'fa fa-lg fa-edit' }),
+	      ' Tweet!'
+	    )
+	  );
+	}
 
-	var ProfileBar = function (_Component) {
-	  _inherits(ProfileBar, _Component);
-
-	  function ProfileBar() {
-	    _classCallCheck(this, ProfileBar);
-
-	    return _possibleConstructorReturn(this, (ProfileBar.__proto__ || Object.getPrototypeOf(ProfileBar)).apply(this, arguments));
-	  }
-
-	  _createClass(ProfileBar, [{
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        { className: _styles2.default.root },
-	        _react2.default.createElement(
-	          _reactRouter.Link,
-	          { to: '/profile' },
-	          _react2.default.createElement(
-	            'figure',
-	            null,
-	            _react2.default.createElement('img', { className: _styles2.default.avatar, src: this.props.picture })
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'span',
-	          { className: _styles2.default.username },
-	          ' Hola @',
-	          this.props.username,
-	          '!'
-	        ),
-	        _react2.default.createElement(
-	          'button',
-	          { onClick: this.props.onOpenText, className: _styles2.default.button },
-	          _react2.default.createElement('span', { className: 'fa fa-lg fa-edit' }),
-	          ' Tweet!'
-	        )
-	      );
-	    }
-	  }]);
-
-	  return ProfileBar;
-	}(_react.Component);
+	ProfileBar.propTypes = propTypes;
 
 	exports.default = ProfileBar;
 
@@ -43857,16 +43844,30 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function Profile() {
+	var propTypes = {
+	  picture: _react.PropTypes.string.isRequired,
+	  displayName: _react.PropTypes.string.isRequired,
+	  username: _react.PropTypes.string.isRequired,
+	  emailAdress: _react.PropTypes.string.isRequired,
+	  location: _react.PropTypes.string.isRequired
+	};
+
+	function Profile(_ref) {
+	  var picture = _ref.picture,
+	      displayName = _ref.displayName,
+	      username = _ref.username,
+	      emailAdress = _ref.emailAdress,
+	      location = _ref.location;
+
 	  return _react2.default.createElement(
 	    'div',
 	    { className: _styles2.default.root },
-	    _react2.default.createElement('img', { className: _styles2.default.avatar, src: this.props.picture }),
+	    _react2.default.createElement('img', { className: _styles2.default.avatar, src: picture }),
 	    _react2.default.createElement(
 	      'span',
 	      { className: _styles2.default.name },
 	      ' ',
-	      this.props.displayName
+	      displayName
 	    ),
 	    _react2.default.createElement(
 	      'ul',
@@ -43875,23 +43876,25 @@
 	        'li',
 	        null,
 	        _react2.default.createElement('span', { className: 'fa fa-user' }),
-	        this.props.user
+	        username
 	      ),
 	      _react2.default.createElement(
 	        'li',
 	        null,
 	        _react2.default.createElement('span', { className: 'fa fa-envelope' }),
-	        this.props.emailAdress
+	        emailAdress
 	      ),
 	      _react2.default.createElement(
 	        'li',
 	        null,
 	        _react2.default.createElement('span', { className: 'fa fa-map-market' }),
-	        this.props.location
+	        location
 	      )
 	    )
 	  );
 	}
+
+	Profile.propTypes = propTypes;
 
 	exports.default = Profile;
 
@@ -43955,8 +43958,6 @@
 	  value: true
 	});
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
@@ -43967,47 +43968,34 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	var propTypes = {
+	  onAuth: _react.PropTypes.func.isRequired
+	};
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	function Login(_ref) {
+	  var onAuth = _ref.onAuth;
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	  return _react2.default.createElement(
+	    'div',
+	    { className: _styles2.default.root },
+	    _react2.default.createElement(
+	      'p',
+	      { className: _styles2.default.text },
+	      'Necesitamos que inicies sesion con tu cuenta de Github para que puedas leer y escribir mensajes.'
+	    ),
+	    _react2.default.createElement(
+	      'button',
+	      {
+	        onClick: onAuth,
+	        className: _styles2.default.button
+	      },
+	      _react2.default.createElement('span', { className: 'fa fa-github' }),
+	      ' Login on Github'
+	    )
+	  );
+	}
 
-	var Login = function (_Component) {
-	  _inherits(Login, _Component);
-
-	  function Login() {
-	    _classCallCheck(this, Login);
-
-	    return _possibleConstructorReturn(this, (Login.__proto__ || Object.getPrototypeOf(Login)).apply(this, arguments));
-	  }
-
-	  _createClass(Login, [{
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        { className: _styles2.default.root },
-	        _react2.default.createElement(
-	          'p',
-	          { className: _styles2.default.text },
-	          'Necesitamos que inicies sesion con tu cuenta de Github para que puedas leer y escribir mensajes.'
-	        ),
-	        _react2.default.createElement(
-	          'button',
-	          {
-	            onClick: this.props.onAuth,
-	            className: _styles2.default.button
-	          },
-	          _react2.default.createElement('span', { className: 'fa fa-github' }),
-	          ' Login on Github'
-	        )
-	      );
-	    }
-	  }]);
-
-	  return Login;
-	}(_react.Component);
+	Login.propTypes = propTypes;
 
 	exports.default = Login;
 
