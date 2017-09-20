@@ -1,6 +1,9 @@
-import React, { Component } from 'react'
+import React, { PropTypes } from 'react'
 import styles from './styles.css'
 
+const propTypes = {
+
+}
 class InputText extends Component {
   render () {
     return (

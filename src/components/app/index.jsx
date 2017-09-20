@@ -5,6 +5,7 @@ import 'normalize-css'
 import Header from '../header'
 import Main from '../main'
 import Profile from '../profile'
+import Login from '../login'
 
 class App extends Component {
   constructor () {
@@ -17,6 +18,11 @@ class App extends Component {
         location: 'Barcelona, Catalunya'
       }
     }
+    this.handleOnAuth = this.handleOnAuth.bind(this)
+  }
+
+  handleOnAuth () {
+    console.log('null')
   }
 
   render () {
@@ -30,7 +36,9 @@ class App extends Component {
                 <Main user={this.state.user} />
               )
             } else {
-              // Render <Profile />
+              return (
+                <Login onAuth={this.handleOnAuth} />
+              )
             }
           }} />
           <Match pattern='/profile' render={() => {

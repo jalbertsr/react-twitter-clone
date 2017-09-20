@@ -4,7 +4,7 @@ import styles from './styles.css'
 function Header () {
   return (
     <header className={styles.root}>
-      <h1 className={styles.logo}>Reactter</h1>
+      <h1 className={styles.logo}>Github tweet</h1>
     </header>
   )
 }

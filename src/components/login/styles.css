@@ -1,0 +1,16 @@
+.root{
+	margin: 0 1em;
+	text-align: center;
+}
+
+.text{
+	color: #888;
+}
+
+.button{
+	border: #666;
+	border-radius: 5px;
+	padding: 0.5em 1em;
+	background-color: #aaa;
+	color: #eaeaea;
+}
