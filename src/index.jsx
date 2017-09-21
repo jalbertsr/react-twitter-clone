@@ -14,4 +14,3 @@ firebase.initializeApp({
 })
 
 render(<App />, document.getElementById('root'))
-

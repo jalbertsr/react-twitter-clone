@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import firebase from 'firebase'
 import { HashRouter, Match } from 'react-router'
 import 'normalize-css'
 
@@ -22,7 +23,11 @@ class App extends Component {
   }
 
   handleOnAuth () {
-    console.log('null')
+    const provider = new firebase.auth.GithubAuthProvider()
+
+    firebase.auth().signInWithPopup(provider)
+      .then(result => console.log(result))
+      .catch(result => console.log(result))
   }
 
   render () {
