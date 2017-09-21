@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import uuid from 'uuid'
+import firebase from 'firebase'
 import MessageList from '../messageList'
 import InputText from '../InputText'
 import ProfileBar from '../ProfileBar'
@@ -17,26 +18,7 @@ class Main extends Component {
       user: Object.assign({}, this.props.user, { retweets: [] }, { favorites: [] }),
       openText: false,
       userNameToReply: '',
-      messages: [{
-        id: uuid.v4(),
-        text: 'primer tweett',
-        picture: 'https://avatars1.githubusercontent.com/u/9289219?v=4',
-        username: 'jalbertsr',
-        displayName: 'Joan Albert',
-        date: Date.now(),
-        retweets: 0,
-        favorites: 0
-      },
-      {
-        id: uuid.v4(),
-        text: 'guay tweett',
-        picture: 'https://avatars1.githubusercontent.com/u/9289219?v=4',
-        username: 'jalbertsr',
-        displayName: 'Joan Albert',
-        date: Date.now(),
-        retweets: 0,
-        favorites: 0
-      }]
+      messages: []
     }
 
     this.handleSendText = this.handleSendText.bind(this)
@@ -47,6 +29,17 @@ class Main extends Component {
     this.handleReplyTweet = this.handleReplyTweet.bind(this)
   }
 
+  componentWillMount () {
+    const messagesRef = firebase.database().ref().child('messages')
+
+    messagesRef.on('child_added', snapshot => {
+      this.setState({
+        messages: this.state.messages.concat(snapshot.val()),
+        openText: false
+      })
+    })
+  }
+
   handleSendText (event) {
     event.preventDefault()
     let newMessage = {
@@ -55,8 +48,14 @@ class Main extends Component {
       displayName: this.props.user.displayName,
       picture: this.props.user.photoURL,
       date: Date.now(),
-      text: event.target.text.value
+      text: event.target.text.value,
+      favorites: 0,
+      retweets: 0
     }
+
+    const messageRef = firebase.database().ref().child('messages')
+    const messageID = messageRef.push()
+    messageID.set(newMessage)
 
     this.setState({
       messages: this.state.messages.concat([newMessage]),

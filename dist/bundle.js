@@ -53312,6 +53312,10 @@
 
 	var _uuid2 = _interopRequireDefault(_uuid);
 
+	var _firebase = __webpack_require__(37);
+
+	var _firebase2 = _interopRequireDefault(_firebase);
+
 	var _messageList = __webpack_require__(393);
 
 	var _messageList2 = _interopRequireDefault(_messageList);
@@ -53349,25 +53353,7 @@
 	      user: Object.assign({}, _this.props.user, { retweets: [] }, { favorites: [] }),
 	      openText: false,
 	      userNameToReply: '',
-	      messages: [{
-	        id: _uuid2.default.v4(),
-	        text: 'primer tweett',
-	        picture: 'https://avatars1.githubusercontent.com/u/9289219?v=4',
-	        username: 'jalbertsr',
-	        displayName: 'Joan Albert',
-	        date: Date.now(),
-	        retweets: 0,
-	        favorites: 0
-	      }, {
-	        id: _uuid2.default.v4(),
-	        text: 'guay tweett',
-	        picture: 'https://avatars1.githubusercontent.com/u/9289219?v=4',
-	        username: 'jalbertsr',
-	        displayName: 'Joan Albert',
-	        date: Date.now(),
-	        retweets: 0,
-	        favorites: 0
-	      }]
+	      messages: []
 	    };
 
 	    _this.handleSendText = _this.handleSendText.bind(_this);
@@ -53380,6 +53366,20 @@
 	  }
 
 	  _createClass(Main, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      var _this2 = this;
+
+	      var messagesRef = _firebase2.default.database().ref().child('messages');
+
+	      messagesRef.on('child_added', function (snapshot) {
+	        _this2.setState({
+	          messages: _this2.state.messages.concat(snapshot.val()),
+	          openText: false
+	        });
+	      });
+	    }
+	  }, {
 	    key: 'handleSendText',
 	    value: function handleSendText(event) {
 	      event.preventDefault();
@@ -53391,6 +53391,10 @@
 	        date: Date.now(),
 	        text: event.target.text.value
 	      };
+
+	      var messageRef = _firebase2.default.database().ref().child('messages');
+	      var messageID = messageRef.push();
+	      messageID.set(newMessage);
 
 	      this.setState({
 	        messages: this.state.messages.concat([newMessage]),
