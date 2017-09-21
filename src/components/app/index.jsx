@@ -12,14 +12,20 @@ class App extends Component {
   constructor () {
     super()
     this.state = {
-      user: {
-        photoURL: 'https://avatars1.githubusercontent.com/u/9289219?v=4',
-        email: 'jalbertsr@protonmail.ch',
-        displayName: 'Joan Albert',
-        location: 'Barcelona, Catalunya'
-      }
+      user: null
     }
     this.handleOnAuth = this.handleOnAuth.bind(this)
+    this.handleLogout = this.handleLogout.bind(this)
+  }
+
+  componentWillMount () {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.setState({ user })
+      } else {
+        this.setState({ user: null })
+      }
+    })
   }
 
   handleOnAuth () {
@@ -30,6 +36,12 @@ class App extends Component {
       .catch(result => console.log(result))
   }
 
+  handleLogout () {
+    firebase.auth().signOut()
+      .then(() => console.log('Te has desconectado correctamente'))
+      .catch(() => console.error('Error en el logout'))
+  }
+
   render () {
     return (
       <HashRouter>
@@ -38,7 +50,10 @@ class App extends Component {
           <Match exactly pattern='/' render={() => {
             if (this.state.user) {
               return (
-                <Main user={this.state.user} />
+                <Main
+                  user={this.state.user}
+                  onLogout={this.handleLogout}
+                />
               )
             } else {
               return (
