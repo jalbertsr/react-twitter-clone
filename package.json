@@ -4,6 +4,7 @@
   "description": "webpack v1 configuration boilerplate for quick start in react projects",
   "main": "index.js",
   "scripts": {
+    "production": "webpack -p",
     "build": "webpack --colors",
     "serve": "webpack-dev-server --content-base dist/ --colors --progress",
     "start": "npm run build && npm run serve"
@@ -23,6 +24,11 @@
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
     "css-loader": "^0.28.4",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
     "extract-text-webpack-plugin": "^1.0.1",
     "html-webpack-plugin": "^2.29.0",
     "style-loader": "^0.18.2",
