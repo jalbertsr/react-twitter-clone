@@ -1,7 +1,7 @@
 {
   "name": "",
   "version": "1.0.0",
-  "description": "webpack v1 configuration boilerplate for quick start in react projects",
+  "description": "twitter clone react",
   "main": "index.js",
   "scripts": {
     "production": "webpack -p",
