@@ -1,6 +1,5 @@
 [![ES6](https://github.com/MarioTerron/logo-images/blob/master/logos/es6.png)](http://www.ecma-international.org/ecma-262/6.0/)
 [![npm](https://github.com/MarioTerron/logo-images/blob/master/logos/npm.png)](https://www.npmjs.com/)
-[![HTML5,CSS3 and JS](https://github.com/FransLopez/logo-images/blob/master/logos/html5-css3-js.png)](http://www.w3.org/)
 ![img-tech](https://d2kgv4a73c4ye.cloudfront.net/wp-content/uploads/2017/05/reactjs-logo-300x84.png)
 ![img-tech](https://raw.githubusercontent.com/ddmarin94/React-Webpack-Github/master/img/babel.png)  
 ![firebase](https://cdn4.iconfinder.com/data/icons/google-i-o-2016/512/google_firebase-2-128.png)
@@ -34,3 +33,7 @@ npm run production
 ```
 
 I recommend reading [firebase docs](https://firebase.google.com/docs/) to host and use realtime database for this project. 
+
+---
+
+In a near future, I want to clone of this project to re-write it with the new React-hooks syntax. Once I do it, I will link it here, so you can appreciate the difference.
