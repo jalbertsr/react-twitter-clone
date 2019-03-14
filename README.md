@@ -36,4 +36,4 @@ I recommend reading [firebase docs](https://firebase.google.com/docs/) to host a
 
 ---
 
-In a near future, I want to clone of this project to re-write it with the new React-hooks syntax. Once I do it, I will link it here, so you can appreciate the difference.
+In a near future, I want to do a clone of this project to re-write it with the new React-hooks syntax. Once I do it, I will link it here, so you can appreciate the difference.
