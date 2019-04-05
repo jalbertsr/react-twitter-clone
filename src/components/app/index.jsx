@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import firebase from 'firebase'
-import { HashRouter, Match } from 'react-router'
+import { HashRouter, Route, Switch } from 'react-router-dom'
 import 'normalize-css'
 
 import Header from '../header'
@@ -47,39 +47,41 @@ class App extends Component {
       <HashRouter>
         <div>
           <Header />
-          <Match exactly pattern='/' render={() => {
-            if (this.state.user) {
+          <Switch>
+            <Route exact path='/' render={() => {
+              if (this.state.user) {
+                return (
+                  <Main
+                    user={this.state.user}
+                    onLogout={this.handleLogout}
+                  />
+                )
+              } else {
+                return (
+                  <Login onAuth={this.handleOnAuth} />
+                )
+              }
+            }} />
+            <Route exact path='/profile' render={() => {
               return (
-                <Main
-                  user={this.state.user}
-                  onLogout={this.handleLogout}
+                <Profile
+                  picture={this.state.user.photoURL}
+                  username={this.state.user.email.split('@')[0]}
+                  displayName={this.state.user.displayName}
+                  location={this.state.user.location}
+                  emailAdress={this.state.user.email}
                 />
               )
-            } else {
+            }} />
+            <Route exact path='/user/:username' render={({ params }) => {
               return (
-                <Login onAuth={this.handleOnAuth} />
+                <Profile
+                  displayName={params.username}
+                  username={params.username}
+                />
               )
-            }
-          }} />
-          <Match pattern='/profile' render={() => {
-            return (
-              <Profile
-                picture={this.state.user.photoURL}
-                username={this.state.user.email.split('@')[0]}
-                displayName={this.state.user.displayName}
-                location={this.state.user.location}
-                emailAdress={this.state.user.email}
-              />
-            )
-          }} />
-          <Match pattern='/user/:username' render={({ params }) => {
-            return (
-              <Profile
-                displayName={params.username}
-                username={params.username}
-              />
-            )
-          }} />
+            }} />
+          </Switch>
         </div>
       </HashRouter>
     )
