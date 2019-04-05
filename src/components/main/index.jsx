@@ -30,14 +30,14 @@ class Main extends Component {
     this.handleReplyTweet = this.handleReplyTweet.bind(this)
   }
 
-  componentWillMount () {
+  componentDidMount () {
     const messagesRef = firebase.database().ref().child('messages')
 
     messagesRef.on('child_added', snapshot => {
-      this.setState({
-        messages: this.state.messages.concat(snapshot.val()),
+      this.setState(prevState => ({
+        messages: prevState.messages.concat(snapshot.val()),
         openText: false
-      })
+      }))
     })
   }
 
