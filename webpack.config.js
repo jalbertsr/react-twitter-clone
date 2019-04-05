@@ -1,4 +1,5 @@
 const webpack = require('webpack')
+const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const dotenv = require('dotenv').config();
@@ -11,7 +12,7 @@ module.exports = {
   entry: './src/index.jsx',
   output: {
     filename: 'bundle.js',
-    path: '/dist',
+    path: path.resolve(__dirname, 'dist/'),
     publicPath: '/'
   },
   module: {

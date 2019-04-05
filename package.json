@@ -4,7 +4,7 @@
   "description": "twitter clone react",
   "main": "index.js",
   "scripts": {
-    "production": "webpack -p",
+    "production": "webpack --mode=production",
     "build": "webpack --colors --mode=development",
     "serve": "webpack-dev-server --content-base dist/ --colors --progress",
     "start": "npm run build && npm run serve"
