@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "production": "webpack -p",
-    "build": "webpack --colors",
+    "build": "webpack --colors --mode=development",
     "serve": "webpack-dev-server --content-base dist/ --colors --progress",
     "start": "npm run build && npm run serve"
   },
