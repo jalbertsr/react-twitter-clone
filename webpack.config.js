@@ -1,12 +1,13 @@
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const dotenv = require('dotenv').config();
 
 module.exports = {
   resolve: {
     extensions: ['.js', '.jsx']
   },
-
+  
   entry: './src/index.jsx',
   output: {
     filename: 'bundle.js',
@@ -48,6 +49,9 @@ module.exports = {
 
   plugins: [
     new HtmlWebpackPlugin({ template: './src/assets/index.html' }),
-    new MiniCssExtractPlugin()
+    new MiniCssExtractPlugin(),
+    new webpack.DefinePlugin({
+      "process.env": JSON.stringify(dotenv.parsed)
+    }),
   ]
 }
