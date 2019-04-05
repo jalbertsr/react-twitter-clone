@@ -1,30 +1,42 @@
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const cssModules = 'modules&importLoaders=1&localIdentName=[name]__[local]__[hash:base64:5]'
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const dotenv = require('dotenv').config();
 
 module.exports = {
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['.js', '.jsx']
   },
-
+  
   entry: './src/index.jsx',
   output: {
     filename: 'bundle.js',
-    path: './dist',
+    path: '/dist',
     publicPath: '/'
   },
-
   module: {
-    loaders: [
+    rules: [
       {
         test: /(\.js|jsx)$/,
         exclude: /node_modules/,
-        loader: 'babel'
+        loader: 'babel-loader'
       },
       {
         test: /\.css$/,
-        loader: `style-loader!css-loader?${cssModules}`
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader
+          },
+
+          {
+            loader: "css-loader",
+            options: {
+              sourceMap: true,
+              modules: true,
+              localIdentName: "[local]___[hash:base64:5]"
+            }
+          },
+        ]
       }
     ]
   },
@@ -37,6 +49,9 @@ module.exports = {
 
   plugins: [
     new HtmlWebpackPlugin({ template: './src/assets/index.html' }),
-    new ExtractTextPlugin('style.css', { allChunks: true })
+    new MiniCssExtractPlugin(),
+    new webpack.DefinePlugin({
+      "process.env": JSON.stringify(dotenv.parsed)
+    }),
   ]
 }

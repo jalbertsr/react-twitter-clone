@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import uuid from 'uuid'
 import firebase from 'firebase'
 import MessageList from '../messageList'
@@ -29,14 +30,14 @@ class Main extends Component {
     this.handleReplyTweet = this.handleReplyTweet.bind(this)
   }
 
-  componentWillMount () {
+  componentDidMount () {
     const messagesRef = firebase.database().ref().child('messages')
 
     messagesRef.on('child_added', snapshot => {
-      this.setState({
-        messages: this.state.messages.concat(snapshot.val()),
+      this.setState(prevState => ({
+        messages: prevState.messages.concat(snapshot.val()),
         openText: false
-      })
+      }))
     })
   }
 

@@ -1,5 +1,6 @@
-import React, { Component, PropTypes } from 'react'
-import { Link } from 'react-router'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 import styles from './styles.css'
 import moment from 'moment'
 
@@ -9,7 +10,7 @@ const propTypes = {
   onReplyTweet: PropTypes.func.isRequired,
   date: PropTypes.number.isRequired,
   username: PropTypes.string.isRequired,
-  displayName: PropTypes.string.isRequired,
+  displayName: PropTypes.string,
   text: PropTypes.string.isRequired,
   numRetweets: PropTypes.number.isRequired,
   numFavorites: PropTypes.number.isRequired
