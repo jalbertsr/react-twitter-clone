@@ -10,7 +10,7 @@ const propTypes = {
   onReplyTweet: PropTypes.func.isRequired,
   date: PropTypes.number.isRequired,
   username: PropTypes.string.isRequired,
-  displayName: PropTypes.string.isRequired,
+  displayName: PropTypes.string,
   text: PropTypes.string.isRequired,
   numRetweets: PropTypes.number.isRequired,
   numFavorites: PropTypes.number.isRequired

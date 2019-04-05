@@ -18,7 +18,7 @@ class App extends Component {
     this.handleLogout = this.handleLogout.bind(this)
   }
 
-  componentWillMount () {
+  componentDidMount () {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.setState({ user })
@@ -33,13 +33,13 @@ class App extends Component {
 
     firebase.auth().signInWithPopup(provider)
       .then(result => console.log(result))
-      .catch(result => console.log(result))
+      .catch(error => console.error(error))
   }
 
   handleLogout () {
     firebase.auth().signOut()
-      .then(() => console.log('Te has desconectado correctamente'))
-      .catch(() => console.error('Error en el logout'))
+      .then(() => console.log('You logged out correctly!'))
+      .catch(() => console.error('Error while trying to logout'))
   }
 
   render () {
@@ -68,12 +68,11 @@ class App extends Component {
                   picture={this.state.user.photoURL}
                   username={this.state.user.email.split('@')[0]}
                   displayName={this.state.user.displayName}
-                  location={this.state.user.location}
                   emailAdress={this.state.user.email}
                 />
               )
             }} />
-            <Route exact path='/user/:username' render={({ params }) => {
+            <Route exact path='/user/:username' render={({ match: { params } }) => {
               return (
                 <Profile
                   displayName={params.username}
