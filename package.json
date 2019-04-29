@@ -23,7 +23,7 @@
     "@babel/cli": "^7.4.3",
     "babel-loader": "^8.0.5",
     "babel-plugin-transform-class-properties": "^6.24.1",
-    "@babel/preset-env": "^7.4.3",
+    "@babel/preset-env": "^7.4.4",
     "@babel/preset-react": "^7.0.0",
     "css-loader": "^2.1.1",
     "dotenv": "^7.0.0",
