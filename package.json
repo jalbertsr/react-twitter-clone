@@ -48,6 +48,6 @@
     "react-dom": "^16.8.6",
     "react-router": "^4.0.0-alpha.6",
     "react-router-dom": "^5.0.1",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.3"
   }
 }
