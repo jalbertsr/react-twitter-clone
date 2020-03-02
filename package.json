@@ -41,7 +41,7 @@
     "webpack-dev-server": "^3.10.3"
   },
   "dependencies": {
-    "firebase": "^7.9.1",
+    "firebase": "^7.9.3",
     "moment": "^2.24.0",
     "normalize-css": "^2.3.1",
     "react": "^16.12.0",
