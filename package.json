@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "firebase": "^7.15.0",
-    "moment": "^2.24.0",
+    "moment": "^2.28.0",
     "normalize-css": "^2.3.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
