@@ -3,10 +3,10 @@ import firebase from 'firebase'
 import { HashRouter, Route, Switch } from 'react-router-dom'
 import 'normalize-css'
 
-import Header from '../header'
-import Main from '../main'
-import Profile from '../profile'
-import Login from '../login'
+import Header from './header'
+import Main from './main'
+import Profile from './profile'
+import Login from './login'
 
 class App extends Component {
   constructor () {
